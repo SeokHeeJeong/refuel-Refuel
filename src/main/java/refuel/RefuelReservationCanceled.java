@@ -3,7 +3,7 @@ package refuel;
 import lombok.Data;
 
 @Data
-public class Paid extends AbstractEvent {
+public class RefuelReservationCanceled extends AbstractEvent {
 
     private Long id;
     private Long reservationId;
@@ -12,8 +12,9 @@ public class Paid extends AbstractEvent {
     private String customerId;
     private String stationId;
     private String reservationStatus;
-    private Long price;
-    private String paymentType;
-    private String paymentStatus;
+
+    public RefuelReservationCanceled(){
+        super();
+    }
 
 }

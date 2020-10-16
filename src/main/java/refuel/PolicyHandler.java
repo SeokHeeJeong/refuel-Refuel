@@ -8,6 +8,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,11 +46,31 @@ public class PolicyHandler{
             // 주유예약 예약취소
             System.out.println("##### listener Cancel : " + paymentCanceled.toJson());
 
-            Optional<Reservation> reservationOptional = ReservationRepository.findById(paymentCanceled.getReservationId());
-            Reservation reservation = reservationOptional.get();
-            reservation.setReservationStatus("CANCELED");
+            List<Reservation> reservationList = ReservationRepository.findByReservationId(paymentCanceled.getReservationId());
+            for(Reservation reservation : reservationList){
+                reservation.setReservationStatus("CANCELED");
 
-            ReservationRepository.save(reservation);
+                ReservationRepository.save(reservation);
+            }
+        }
+    }
+
+    @Autowired
+    RefuelRepository RefuelRepository;
+
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverUnReserved_UnReserved(@Payload UnReserved unReserved){
+
+        if(unReserved.isMe()){
+            // 미등록 주유 시도건 - 보상 트랜젝션 수신
+            System.out.println("##### listener unreserved : " + unReserved.toJson());
+
+            Optional<Refuel> refuelOptional = RefuelRepository.findById(unReserved.getRefuelId());
+            Refuel refuel = refuelOptional.get();
+            refuel.setRefuelStatus("UNRESERVED");
+
+            RefuelRepository.save(refuel);
+
         }
     }
 

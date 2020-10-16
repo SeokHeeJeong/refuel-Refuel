@@ -1,78 +1,41 @@
 package refuel;
 
 import javax.persistence.*;
-import org.springframework.beans.BeanUtils;
-import java.util.List;
 
+import lombok.Data;
+import org.springframework.beans.BeanUtils;
+
+@Data
 @Entity
 @Table(name="Refuel_table")
 public class Refuel {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private Long reservationId;
     private String fuelType;
-    private Integer qty;
+    private int qty;
     private String customerId;
     private String stationId;
 
+    //@ColumnDefault("REFUELLED")
+    @Column(name = "refuel_status")
+    private String refuelStatus;
+
     @PostPersist
     public void onPostPersist(){
-        Refuelled refuelled = new Refuelled();
-        BeanUtils.copyProperties(this, refuelled);
-        // 상태 변경
-        refuelled.setReservationStatus("REFUELLED");
-        refuelled.publishAfterCommit();
 
+        if (refuelStatus.equals("REFUELLED")){
+            // 주유 등록
+            Refuelled refuelled = new Refuelled();
+            BeanUtils.copyProperties(this, refuelled);
+            // 상태 변경
+            refuelled.setReservationStatus("REFUELLED");
+            refuelled.publishAfterCommit();// 주유건 취소
+
+        }
 
     }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public Long getReservationId() {
-        return reservationId;
-    }
-
-    public void setReservationId(Long reservationId) {
-        this.reservationId = reservationId;
-    }
-    public String getFuelType() {
-        return fuelType;
-    }
-
-    public void setFuelType(String fuelType) {
-        this.fuelType = fuelType;
-    }
-    public Integer getQty() {
-        return qty;
-    }
-
-    public void setQty(Integer qty) {
-        this.qty = qty;
-    }
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-    public String getStationId() {
-        return stationId;
-    }
-
-    public void setStationId(String stationId) {
-        this.stationId = stationId;
-    }
-
-
-
 
 }

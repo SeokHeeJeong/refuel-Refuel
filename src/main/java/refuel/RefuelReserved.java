@@ -2,8 +2,10 @@ package refuel;
 
 import lombok.Data;
 
+import javax.annotation.sql.DataSourceDefinition;
+
 @Data
-public class Paid extends AbstractEvent {
+public class RefuelReserved extends AbstractEvent {
 
     private Long id;
     private Long reservationId;
@@ -12,8 +14,9 @@ public class Paid extends AbstractEvent {
     private String customerId;
     private String stationId;
     private String reservationStatus;
-    private Long price;
-    private String paymentType;
-    private String paymentStatus;
+
+    public RefuelReserved(){
+        super();
+    }
 
 }

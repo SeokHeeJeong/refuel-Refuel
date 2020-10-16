@@ -3,12 +3,15 @@ refuel\ReservationRepository.class
 refuel\ReservationController.class
 refuel\PaymentCanceled.class
 refuel\Refuelled.class
+refuel\UnReserved.class
 refuel\RefuelController.class
 refuel\Reservation.class
 refuel\PolicyHandler.class
 refuel\RefuelRepository.class
+refuel\RefuelReserved.class
 refuel\Paid.class
 refuel\RefuelApplication.class
 refuel\AbstractEvent$1.class
 refuel\AbstractEvent.class
 refuel\config\kafka\KafkaProcessor.class
+refuel\RefuelReservationCanceled.class
