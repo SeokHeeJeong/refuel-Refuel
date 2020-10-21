@@ -17,8 +17,8 @@ spec:
         sidecar.istio.io/inject: "true"
     spec:
       containers:
-        - name: Refuel
-          image: username/Refuel:latest
+        - name: refuel
+          image: 467263215646.dkr.ecr.ap-northeast-1.amazonaws.com/skccuser16-refuel:v1
           ports:
             - containerPort: 8080
           readinessProbe:
